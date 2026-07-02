@@ -3,8 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dice Heroes — Roll in Style</title>
+<title>Dice Hero — Roll in Style</title>
 <meta name="description" content="Premium D&D dice sets, towers, and bags for adventurers who refuse to roll ordinary.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cinzel:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 :root{
@@ -36,9 +39,9 @@ header{
 .logo{display:flex;align-items:center;gap:10px;text-decoration:none;flex-shrink:0;}
 #logoImg{width:44px;height:44px;display:block;object-fit:contain;}
 .logo-name{
-  font-family:Georgia,serif;
-  font-size:1.15rem;font-weight:700;
-  color:var(--white);line-height:1.1;
+  font-family:'Cinzel Decorative',Georgia,serif;
+  font-size:0.9rem;font-weight:700;
+  color:var(--white);line-height:1.2;
   letter-spacing:0.02em;
 }
 .logo-name span{color:var(--red);}
@@ -78,7 +81,7 @@ nav a:hover{color:var(--white);background:rgba(255,255,255,.04);}
 @keyframes float{0%,100%{transform:translateY(0) rotate(-2deg);}50%{transform:translateY(-18px) rotate(2deg);}}
 .hero-eyebrow{font-size:.7rem;text-transform:uppercase;letter-spacing:.22em;color:var(--red);margin-bottom:1rem;font-weight:700;}
 .hero-h1{
-  font-family:Georgia,serif;
+  font-family:'Cinzel Decorative',Georgia,serif;
   font-size:clamp(2.6rem,7vw,5.2rem);
   font-weight:700;color:var(--white);
   line-height:1.05;letter-spacing:-.03em;
@@ -111,7 +114,7 @@ nav a:hover{color:var(--white);background:rgba(255,255,255,.04);}
 .prod-section{padding:6rem 2rem;max-width:1200px;margin:0 auto;}
 .sec-head{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:2.75rem;}
 .sec-label{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.18em;color:var(--red);margin-bottom:.35rem;}
-.sec-title{font-family:Georgia,serif;font-size:clamp(1.7rem,3.5vw,2.5rem);font-weight:700;color:var(--white);text-wrap:balance;letter-spacing:-.02em;}
+.sec-title{font-family:'Cinzel Decorative',Georgia,serif;font-size:clamp(1.7rem,3.5vw,2.5rem);font-weight:700;color:var(--white);text-wrap:balance;letter-spacing:-.02em;}
 .sec-more{color:var(--red);font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;text-decoration:none;transition:color .18s;flex-shrink:0;padding-bottom:4px;}
 .sec-more:hover{color:var(--red-hot);}
 
@@ -136,7 +139,7 @@ nav a:hover{color:var(--white);background:rgba(255,255,255,.04);}
 }
 .pcard-img svg{width:80%;height:80%;}
 .pcard-body{padding:1.25rem 1.5rem 1.5rem;}
-.pcard-name{font-family:Georgia,serif;font-size:1.05rem;font-weight:700;color:var(--white);margin-bottom:.3rem;}
+.pcard-name{font-family:'Cinzel Decorative',Georgia,serif;font-size:1.05rem;font-weight:700;color:var(--white);margin-bottom:.3rem;}
 .pcard-desc{font-size:.8rem;color:var(--mist);margin-bottom:1rem;line-height:1.5;}
 .pcard-foot{display:flex;align-items:center;justify-content:space-between;}
 .pcard-price{font-size:1.1rem;font-weight:700;color:var(--red);font-variant-numeric:tabular-nums;}
@@ -185,7 +188,7 @@ nav a:hover{color:var(--white);background:rgba(255,255,255,.04);}
 }
 .chat-dot{width:8px;height:8px;border-radius:50%;background:var(--red);animation:blink 2s ease-in-out infinite;}
 @keyframes blink{0%,100%{opacity:1;}50%{opacity:.25;}}
-.chat-htitle{font-family:Georgia,serif;font-size:1rem;font-weight:700;color:var(--white);}
+.chat-htitle{font-family:'Cinzel Decorative',Georgia,serif;font-size:1rem;font-weight:700;color:var(--white);}
 .chat-count{font-size:.75rem;color:var(--mist);margin-left:auto;}
 .chat-msgs{
   height:360px;overflow-y:auto;
@@ -228,7 +231,7 @@ nav a:hover{color:var(--white);background:rgba(255,255,255,.04);}
   border-top:1px solid var(--border);
 }
 .nl-inner{max-width:520px;margin:0 auto;}
-.nl-title{font-family:Georgia,serif;font-size:clamp(1.7rem,3.5vw,2.5rem);font-weight:700;color:var(--white);margin-bottom:.75rem;text-wrap:balance;letter-spacing:-.02em;}
+.nl-title{font-family:'Cinzel Decorative',Georgia,serif;font-size:clamp(1.7rem,3.5vw,2.5rem);font-weight:700;color:var(--white);margin-bottom:.75rem;text-wrap:balance;letter-spacing:-.02em;}
 .nl-sub{font-size:.9rem;color:var(--mist);margin-bottom:2rem;}
 .nl-form{display:flex;gap:.6rem;}
 .nl-email{
@@ -248,7 +251,7 @@ footer{
   border-top:1px solid var(--border);
   padding:3rem 2rem;text-align:center;
 }
-.ft-name{font-family:Georgia,serif;font-size:1.15rem;font-weight:700;color:var(--white);margin-bottom:.35rem;}
+.ft-name{font-family:'Cinzel Decorative',Georgia,serif;font-size:1.15rem;font-weight:700;color:var(--white);margin-bottom:.35rem;}
 .ft-name span{color:var(--red);}
 .ft-tag{font-size:.78rem;color:var(--mist);margin-bottom:1.5rem;}
 .ft-links{display:flex;justify-content:center;gap:2rem;flex-wrap:wrap;margin-bottom:1.5rem;}
@@ -273,8 +276,8 @@ footer{
 
 <header>
   <a href="#" class="logo">
-    <img id="logoImg" src="/logo.png" alt="Dice Heroes logo">
-    <div class="logo-name">Dice<br><span>Heroes</span></div>
+    <img id="logoImg" src="/logo.png" alt="Dice Hero logo">
+    <div class="logo-name">Dice<br><span>Hero</span></div>
   </a>
   <nav>
     <a href="#dice">Dice</a>
@@ -289,7 +292,7 @@ footer{
 <section id="hero">
   <canvas id="heroBg"></canvas>
   <div class="hero-inner">
-    <img id="heroD20" src="/logo.png" alt="Dice Heroes">
+    <img id="heroD20" src="/logo.png" alt="Dice Hero">
     <p class="hero-eyebrow">Est. Roll 20 · Premium Tabletop Gear</p>
     <h1 class="hero-h1">Your Legend.<br><em>Your Dice.</em></h1>
     <p class="hero-sub">Hand-picked polyhedral sets, towers, and bags for adventurers who refuse to roll ordinary.</p>
@@ -330,12 +333,12 @@ footer{
             <line x1="9" y1="73" x2="54" y2="50" stroke="#4a0000" stroke-width=".8"/>
             <line x1="99" y1="73" x2="54" y2="50" stroke="#4a0000" stroke-width=".8"/>
             <line x1="54" y1="96" x2="54" y2="50" stroke="#4a0000" stroke-width=".8"/>
-            <text x="54" y="24" text-anchor="middle" fill="#cc1111" font-size="14" font-weight="bold" font-family="Georgia,serif">20</text>
+            <text x="54" y="24" text-anchor="middle" fill="#cc1111" font-size="14" font-weight="bold" font-family="'Cinzel Decorative',Georgia,serif">20</text>
           </g>
           <g transform="translate(150,60)">
             <polygon points="25,0 50,45 0,45" fill="#aa0000" stroke="#cc1111" stroke-width="1.5"/>
             <polygon points="25,0 50,45 35,55 15,55 0,45" fill="#880000"/>
-            <text x="25" y="38" text-anchor="middle" fill="white" font-size="11" opacity=".7" font-family="Georgia,serif">4</text>
+            <text x="25" y="38" text-anchor="middle" fill="white" font-size="11" opacity=".7" font-family="'Cinzel Decorative',Georgia,serif">4</text>
           </g>
         </svg>
       </div>
@@ -360,7 +363,7 @@ footer{
             <line x1="5" y1="62" x2="40" y2="43" stroke="#330033" stroke-width=".8"/>
             <line x1="75" y1="62" x2="40" y2="43" stroke="#330033" stroke-width=".8"/>
             <line x1="40" y1="81" x2="40" y2="43" stroke="#330033" stroke-width=".8"/>
-            <text x="40" y="22" text-anchor="middle" fill="#cc44cc" font-size="12" font-family="Georgia,serif">20</text>
+            <text x="40" y="22" text-anchor="middle" fill="#cc44cc" font-size="12" font-family="'Cinzel Decorative',Georgia,serif">20</text>
           </g>
           <g transform="translate(105,20) rotate(10,40,40)">
             <polygon points="40,8 72,26 72,62 40,80 8,62 8,26" fill="#0a0014" stroke="#3300aa" stroke-width="2"/>
@@ -370,7 +373,7 @@ footer{
             <line x1="8" y1="62" x2="40" y2="44" stroke="#220044" stroke-width=".8"/>
             <line x1="72" y1="62" x2="40" y2="44" stroke="#220044" stroke-width=".8"/>
             <line x1="40" y1="80" x2="40" y2="44" stroke="#220044" stroke-width=".8"/>
-            <text x="40" y="22" text-anchor="middle" fill="#6655ff" font-size="12" font-family="Georgia,serif">12</text>
+            <text x="40" y="22" text-anchor="middle" fill="#6655ff" font-size="12" font-family="'Cinzel Decorative',Georgia,serif">12</text>
           </g>
           <circle cx="30" cy="130" r="2" fill="#cc44cc" opacity=".7"/>
           <circle cx="100" cy="140" r="1.5" fill="#6655ff" opacity=".6"/>
@@ -417,7 +420,7 @@ footer{
             <polygon points="30,0 55,30 30,60 5,30" fill="url(#metal)" stroke="#ff3333" stroke-width="1.5"/>
             <line x1="5" y1="30" x2="55" y2="30" stroke="#cc1111" stroke-width=".8"/>
             <line x1="30" y1="0" x2="30" y2="60" stroke="#cc1111" stroke-width=".8"/>
-            <text x="30" y="34" text-anchor="middle" fill="#ffaaaa" font-size="11" font-family="Georgia,serif">8</text>
+            <text x="30" y="34" text-anchor="middle" fill="#ffaaaa" font-size="11" font-family="'Cinzel Decorative',Georgia,serif">8</text>
           </g>
         </svg>
       </div>
@@ -522,7 +525,7 @@ footer{
           <path d="M150,165 L135,165 L135,150 L150,150" fill="none" stroke="#cc1111" stroke-width="2"/>
           <polygon points="100,50 126,63 126,90 100,103 74,90 74,63" fill="none" stroke="#cc1111" stroke-width="1.5" opacity=".7"/>
           <polygon points="100,50 126,63 74,63" fill="none" stroke="#cc1111" stroke-width=".8" opacity=".5"/>
-          <text x="100" y="80" text-anchor="middle" fill="#cc1111" font-size="16" font-family="Georgia,serif" opacity=".8">20</text>
+          <text x="100" y="80" text-anchor="middle" fill="#cc1111" font-size="16" font-family="'Cinzel Decorative',Georgia,serif" opacity=".8">20</text>
           <rect x="65" y="148" width="70" height="12" rx="2" fill="#0a0404" stroke="#cc1111" stroke-width="1"/>
         </svg>
       </div>
@@ -667,7 +670,7 @@ footer{
             <line x1="60" y1="96" x2="100" y2="74" stroke="#661100" stroke-width=".8"/>
             <line x1="140" y1="96" x2="100" y2="74" stroke="#661100" stroke-width=".8"/>
             <line x1="100" y1="118" x2="100" y2="74" stroke="#661100" stroke-width=".8"/>
-            <text x="100" y="50" text-anchor="middle" fill="#ff6600" font-size="14" font-family="Georgia,serif" font-weight="bold">20</text>
+            <text x="100" y="50" text-anchor="middle" fill="#ff6600" font-size="14" font-family="'Cinzel Decorative',Georgia,serif" font-weight="bold">20</text>
           </svg>
         </div>
         <div class="pcard-body">
@@ -697,7 +700,7 @@ footer{
               <line x1="10" y1="74" x2="50" y2="52" stroke="#333322" stroke-width=".7"/>
               <line x1="90" y1="74" x2="50" y2="52" stroke="#333322" stroke-width=".7"/>
               <line x1="50" y1="96" x2="50" y2="52" stroke="#333322" stroke-width=".7"/>
-              <text x="50" y="27" text-anchor="middle" fill="#aabb88" font-size="13" font-family="Georgia,serif">20</text>
+              <text x="50" y="27" text-anchor="middle" fill="#aabb88" font-size="13" font-family="'Cinzel Decorative',Georgia,serif">20</text>
             </g>
             <g transform="translate(115,30)">
               <polygon points="42,8 74,26 74,62 42,80 10,62 10,26" fill="url(#bone)"/>
@@ -799,7 +802,7 @@ footer{
     <a href="#">About</a>
     <a href="#">Shipping &amp; Returns</a>
   </div>
-  <p class="ft-copy">© 2026 Dice Heroes. All rights reserved. Roll responsibly.</p>
+  <p class="ft-copy">© 2026 Dice Hero. All rights reserved. Roll responsibly.</p>
 </footer>
 
 <script>
