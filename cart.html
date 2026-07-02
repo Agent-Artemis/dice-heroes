@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cart — Dice Hero</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pirata+One&family=Cardo:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --ink:#08080d;
+  --panel:#110a0a;
+  --panel2:#0d0606;
+  --red:#c91010;
+  --red-hot:#ff3030;
+  --red-dim:#6b0000;
+  --border:#1e0f0f;
+  --cream:#e6ddd0;
+  --mist:#8a7a70;
+  --white:#f4ede4;
+}
+html{scroll-behavior:smooth;}
+body{background:var(--ink);color:var(--cream);font-family:'Cardo',Georgia,serif;font-size:16px;line-height:1.6;overflow-x:hidden;min-height:100vh;display:flex;flex-direction:column;}
+
+/* — HEADER — */
+header{
+  position:sticky;top:0;left:0;right:0;z-index:200;
+  height:66px;
+  background:rgba(8,8,13,0.96);
+  backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;
+  padding:0 2.5rem;gap:2rem;
+}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;flex-shrink:0;}
+#logoImg{width:44px;height:44px;display:block;object-fit:contain;}
+.logo-name{font-family:'Pirata One',Georgia,serif;font-size:0.9rem;font-weight:700;color:var(--white);line-height:1.2;letter-spacing:0.02em;}
+.logo-name span{color:var(--red);}
+nav{display:flex;align-items:center;gap:0.25rem;margin-left:auto;}
+nav a{color:var(--mist);text-decoration:none;font-size:0.78rem;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;padding:6px 14px;border-radius:4px;transition:color .18s,background .18s;font-family:'Cardo',Georgia,serif;}
+nav a:hover{color:var(--white);background:rgba(255,255,255,.04);}
+.nav-drops{color:var(--red) !important;}
+.cart-nav{background:var(--red);color:#fff;border:none;padding:8px 20px;border-radius:4px;font-size:0.78rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;cursor:pointer;transition:background .18s;margin-left:0.75rem;flex-shrink:0;text-decoration:none;font-family:'Cardo',Georgia,serif;}
+.cart-nav:hover{background:var(--red-hot);}
+
+/* — PAGE HEADER — */
+.page-hero{
+  padding:5rem 2rem 3rem;
+  text-align:center;
+  border-bottom:1px solid var(--border);
+}
+.page-eyebrow{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.18em;color:var(--red);margin-bottom:.5rem;font-family:'Cardo',Georgia,serif;}
+.page-title{font-family:'Pirata One',Georgia,serif;font-size:clamp(2.2rem,5vw,3.8rem);color:var(--white);letter-spacing:.02em;line-height:1.1;}
+
+/* — MAIN LAYOUT — */
+main{flex:1;max-width:1100px;margin:0 auto;width:100%;padding:3rem 2rem;}
+.cart-layout{display:grid;grid-template-columns:1fr 340px;gap:2.5rem;align-items:start;}
+
+/* — CART ITEMS — */
+.cart-items-wrap{}
+.cart-section-title{font-family:'Pirata One',Georgia,serif;font-size:1.3rem;color:var(--white);margin-bottom:1.5rem;padding-bottom:.75rem;border-bottom:1px solid var(--border);}
+
+.cart-item{
+  display:grid;
+  grid-template-columns:56px 1fr auto auto auto;
+  gap:1rem;
+  align-items:center;
+  padding:1.25rem 0;
+  border-bottom:1px solid var(--border);
+}
+.item-icon{
+  width:56px;height:56px;
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:4px;
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;
+}
+.item-icon svg{width:34px;height:34px;}
+.item-info{}
+.item-name{font-family:'Pirata One',Georgia,serif;font-size:1rem;color:var(--white);margin-bottom:.15rem;}
+.item-unit{font-size:.8rem;color:var(--mist);}
+.item-qty{display:flex;align-items:center;gap:.5rem;}
+.qty-btn{
+  width:28px;height:28px;
+  background:transparent;
+  border:1px solid var(--border);
+  color:var(--cream);
+  border-radius:3px;
+  cursor:pointer;
+  font-size:.9rem;
+  display:flex;align-items:center;justify-content:center;
+  transition:border-color .18s,background .18s;
+  font-family:'Cardo',Georgia,serif;
+}
+.qty-btn:hover{border-color:var(--red);background:rgba(201,16,16,.1);}
+.qty-num{font-size:.95rem;color:var(--white);min-width:24px;text-align:center;font-variant-numeric:tabular-nums;}
+.item-total{font-size:1rem;font-weight:700;color:var(--red);min-width:60px;text-align:right;font-variant-numeric:tabular-nums;}
+.item-remove{background:none;border:none;color:var(--mist);cursor:pointer;font-size:1.1rem;padding:4px;transition:color .18s;line-height:1;}
+.item-remove:hover{color:var(--red);}
+
+/* — EMPTY STATE — */
+#emptyState{display:none;text-align:center;padding:5rem 2rem;}
+.empty-icon{font-size:3rem;margin-bottom:1.5rem;opacity:.3;}
+.empty-title{font-family:'Pirata One',Georgia,serif;font-size:1.8rem;color:var(--white);margin-bottom:.75rem;}
+.empty-sub{font-size:.95rem;color:var(--mist);margin-bottom:2rem;}
+
+/* — ORDER SUMMARY — */
+.summary-box{
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:6px;
+  padding:1.75rem;
+  position:sticky;
+  top:90px;
+}
+.summary-title{font-family:'Pirata One',Georgia,serif;font-size:1.3rem;color:var(--white);margin-bottom:1.5rem;padding-bottom:.75rem;border-bottom:1px solid var(--border);}
+.summary-row{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:.85rem;font-size:.9rem;}
+.summary-row .label{color:var(--mist);}
+.summary-row .value{color:var(--cream);font-variant-numeric:tabular-nums;}
+.summary-row.total{
+  border-top:1px solid var(--border);
+  padding-top:1rem;margin-top:.5rem;margin-bottom:1.5rem;
+}
+.summary-row.total .label{color:var(--white);font-size:1rem;font-family:'Pirata One',Georgia,serif;}
+.summary-row.total .value{color:var(--red);font-size:1.2rem;font-weight:700;}
+.free-shipping{
+  font-size:.78rem;color:var(--mist);
+  text-align:center;margin-bottom:1rem;
+  padding:.6rem;background:rgba(201,16,16,.06);
+  border:1px solid rgba(201,16,16,.15);border-radius:4px;
+}
+.free-shipping span{color:var(--red);}
+.checkout-btn{
+  display:block;width:100%;
+  background:var(--red);color:#fff;
+  border:none;padding:14px;
+  border-radius:4px;font-size:.88rem;
+  font-weight:700;text-transform:uppercase;
+  letter-spacing:.1em;cursor:pointer;
+  font-family:'Pirata One',Georgia,serif;
+  transition:background .18s;text-align:center;
+  text-decoration:none;
+}
+.checkout-btn:hover{background:var(--red-hot);}
+.checkout-btn:disabled{background:var(--red-dim);cursor:not-allowed;opacity:.5;}
+.continue-link{display:block;text-align:center;margin-top:1rem;color:var(--mist);text-decoration:none;font-size:.82rem;text-transform:uppercase;letter-spacing:.08em;transition:color .18s;}
+.continue-link:hover{color:var(--red);}
+
+/* — FOOTER — */
+footer{background:#050508;border-top:1px solid var(--border);padding:3rem 2rem;text-align:center;}
+.ft-name{font-family:'Pirata One',Georgia,serif;font-size:1.15rem;font-weight:700;color:var(--white);margin-bottom:.35rem;}
+.ft-name span{color:var(--red);}
+.ft-tag{font-size:.78rem;color:var(--mist);margin-bottom:1.5rem;}
+.ft-links{display:flex;justify-content:center;gap:2rem;flex-wrap:wrap;margin-bottom:1.5rem;}
+.ft-links a{color:var(--mist);text-decoration:none;font-size:.75rem;text-transform:uppercase;letter-spacing:.08em;transition:color .18s;}
+.ft-links a:hover{color:var(--red);}
+.ft-copy{font-size:.72rem;color:#2e1a1a;}
+
+@media(max-width:768px){
+  .cart-layout{grid-template-columns:1fr;}
+  .summary-box{position:static;}
+  nav{display:none;}
+  .cart-item{grid-template-columns:44px 1fr auto;grid-template-rows:auto auto;}
+  .item-total{grid-column:3;grid-row:1;}
+  .item-qty{grid-column:2;grid-row:2;}
+  .item-remove{grid-column:3;grid-row:2;}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <a href="/" class="logo">
+    <img id="logoImg" src="/logo.png" alt="Dice Hero logo">
+    <div class="logo-name">Dice<br><span>Hero</span></div>
+  </a>
+  <nav>
+    <a href="/#dice">Dice</a>
+    <a href="/#towers">Towers</a>
+    <a href="/#bags">Bags</a>
+    <a href="/#drops" class="nav-drops">New Drops</a>
+    <a href="/#chat-sec">Community</a>
+  </nav>
+  <a href="/cart" class="cart-nav" id="cartBtn">Cart (0)</a>
+</header>
+
+<div class="page-hero">
+  <p class="page-eyebrow">Your Spoils</p>
+  <h1 class="page-title">Thy Cart</h1>
+</div>
+
+<main>
+  <!-- Empty state -->
+  <div id="emptyState">
+    <div class="empty-icon">🎲</div>
+    <h2 class="empty-title">Thy Cart Lies Empty</h2>
+    <p class="empty-sub">No dice have been claimed. Return to the hall and choose thy weapons.</p>
+    <a href="/" class="checkout-btn" style="display:inline-block;width:auto;padding:14px 40px;">Browse the Armory</a>
+  </div>
+
+  <!-- Cart layout (shown when items exist) -->
+  <div class="cart-layout" id="cartLayout">
+    <div class="cart-items-wrap">
+      <h2 class="cart-section-title">Items in Thy Cart</h2>
+      <div id="itemsList"></div>
+    </div>
+
+    <aside class="summary-box">
+      <h2 class="summary-title">Order Summary</h2>
+      <div class="summary-row">
+        <span class="label">Subtotal</span>
+        <span class="value" id="subtotalVal">$0.00</span>
+      </div>
+      <div class="summary-row">
+        <span class="label">Shipping</span>
+        <span class="value" id="shippingVal">—</span>
+      </div>
+      <div class="summary-row total">
+        <span class="label">Total</span>
+        <span class="value" id="totalVal">$0.00</span>
+      </div>
+      <div class="free-shipping" id="shippingNote">
+        Spend <span id="shippingLeft"></span> more for <span>free shipping</span>
+      </div>
+      <button class="checkout-btn" id="checkoutBtn">Proceed to Checkout</button>
+      <a href="/" class="continue-link">← Continue Shopping</a>
+    </aside>
+  </div>
+</main>
+
+<footer>
+  <div class="ft-name">Dice <span>Hero</span></div>
+  <p class="ft-tag">Roll in style. Die with honour.</p>
+  <div class="ft-links">
+    <a href="/#dice">Dice Sets</a>
+    <a href="/#towers">Dice Towers</a>
+    <a href="/#bags">Dice Bags</a>
+    <a href="/#drops">New Drops</a>
+    <a href="/#chat-sec">Community</a>
+    <a href="#">About</a>
+    <a href="#">Shipping &amp; Returns</a>
+  </div>
+  <p class="ft-copy">© 2026 Dice Hero. All rights reserved. Roll responsibly.</p>
+</footer>
+
+<script>
+const FREE_SHIPPING_THRESHOLD = 75;
+const SHIPPING_FLAT = 6.99;
+
+function getCart(){return JSON.parse(localStorage.getItem('diceHeroCart')||'[]');}
+function saveCart(cart){localStorage.setItem('diceHeroCart',JSON.stringify(cart));}
+
+function fmt(n){return '$'+n.toFixed(2);}
+
+const DICE_SVG = `<svg viewBox="0 0 40 40" fill="none"><polygon points="20,4 36,13 36,27 20,36 4,27 4,13" fill="#1a0808" stroke="#cc1111" stroke-width="1.5"/><polygon points="20,4 36,13 4,13" fill="#2a1010" stroke="#cc1111" stroke-width="1"/><line x1="4" y1="13" x2="20" y2="20" stroke="#4a0000" stroke-width=".8"/><line x1="36" y1="13" x2="20" y2="20" stroke="#4a0000" stroke-width=".8"/><line x1="4" y1="27" x2="20" y2="20" stroke="#4a0000" stroke-width=".8"/><line x1="36" y1="27" x2="20" y2="20" stroke="#4a0000" stroke-width=".8"/><line x1="20" y1="36" x2="20" y2="20" stroke="#4a0000" stroke-width=".8"/><text x="20" y="14" text-anchor="middle" fill="#cc1111" font-size="7" font-family="'Pirata One',Georgia,serif">20</text></svg>`;
+
+function render(){
+  const cart = getCart();
+  const cartBtn = document.getElementById('cartBtn');
+  const total = cart.reduce((s,i)=>s+i.qty,0);
+  cartBtn.textContent = `Cart (${total})`;
+
+  if(cart.length === 0){
+    document.getElementById('emptyState').style.display='block';
+    document.getElementById('cartLayout').style.display='none';
+    return;
+  }
+
+  document.getElementById('emptyState').style.display='none';
+  document.getElementById('cartLayout').style.display='grid';
+
+  const list = document.getElementById('itemsList');
+  list.innerHTML = '';
+
+  cart.forEach((item, idx) => {
+    const lineTotal = item.price * item.qty;
+    const el = document.createElement('div');
+    el.className = 'cart-item';
+    el.innerHTML = `
+      <div class="item-icon">${DICE_SVG}</div>
+      <div class="item-info">
+        <div class="item-name">${item.name}</div>
+        <div class="item-unit">${fmt(item.price)} each</div>
+      </div>
+      <div class="item-qty">
+        <button class="qty-btn" data-action="dec" data-idx="${idx}">−</button>
+        <span class="qty-num">${item.qty}</span>
+        <button class="qty-btn" data-action="inc" data-idx="${idx}">+</button>
+      </div>
+      <div class="item-total">${fmt(lineTotal)}</div>
+      <button class="item-remove" data-action="remove" data-idx="${idx}" title="Remove">✕</button>
+    `;
+    list.appendChild(el);
+  });
+
+  // Event delegation
+  list.onclick = e => {
+    const btn = e.target.closest('[data-action]');
+    if(!btn) return;
+    const idx = parseInt(btn.dataset.idx);
+    const cart2 = getCart();
+    const action = btn.dataset.action;
+    if(action==='inc') cart2[idx].qty++;
+    if(action==='dec'){
+      cart2[idx].qty--;
+      if(cart2[idx].qty<=0) cart2.splice(idx,1);
+    }
+    if(action==='remove') cart2.splice(idx,1);
+    saveCart(cart2);
+    render();
+  };
+
+  // Summary
+  const subtotal = cart.reduce((s,i)=>s+(i.price*i.qty),0);
+  const shipping = subtotal >= FREE_SHIPPING_THRESHOLD ? 0 : SHIPPING_FLAT;
+  const grandTotal = subtotal + shipping;
+  const left = FREE_SHIPPING_THRESHOLD - subtotal;
+
+  document.getElementById('subtotalVal').textContent = fmt(subtotal);
+  document.getElementById('shippingVal').textContent = shipping===0 ? 'FREE' : fmt(shipping);
+  document.getElementById('totalVal').textContent = fmt(grandTotal);
+
+  const noteEl = document.getElementById('shippingNote');
+  if(shipping===0){
+    noteEl.innerHTML = `<span>Free shipping unlocked!</span> Your order ships free.`;
+  } else {
+    document.getElementById('shippingLeft').textContent = fmt(left);
+  }
+
+  document.getElementById('checkoutBtn').onclick = () => {
+    alert("Checkout coming soon, adventurer. Your spoils are safe.");
+  };
+}
+
+render();
+</script>
+</body>
+</html>
