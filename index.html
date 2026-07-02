@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dice Heroes — Roll in Style</title>
+<meta name="description" content="Premium D&D dice sets, towers, and bags for adventurers who refuse to roll ordinary.">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --ink:#08080d;
+  --panel:#110a0a;
+  --panel2:#0d0606;
+  --red:#c91010;
+  --red-hot:#ff3030;
+  --red-dim:#6b0000;
+  --border:#1e0f0f;
+  --cream:#e6ddd0;
+  --mist:#8a7a70;
+  --white:#f4ede4;
+}
+html{scroll-behavior:smooth;}
+body{background:var(--ink);color:var(--cream);font-family:system-ui,-apple-system,'Segoe UI',sans-serif;font-size:16px;line-height:1.6;overflow-x:hidden;}
+
+/* — HEADER — */
+header{
+  position:fixed;top:0;left:0;right:0;z-index:200;
+  height:66px;
+  background:rgba(8,8,13,0.96);
+  backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;
+  padding:0 2.5rem;
+  gap:2rem;
+}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;flex-shrink:0;}
+#logoCanvas{width:42px;height:42px;display:block;}
+.logo-name{
+  font-family:Georgia,serif;
+  font-size:1.15rem;font-weight:700;
+  color:var(--white);line-height:1.1;
+  letter-spacing:0.02em;
+}
+.logo-name span{color:var(--red);}
+nav{display:flex;align-items:center;gap:0.25rem;margin-left:auto;}
+nav a{
+  color:var(--mist);text-decoration:none;
+  font-size:0.78rem;font-weight:600;
+  text-transform:uppercase;letter-spacing:0.1em;
+  padding:6px 14px;border-radius:4px;
+  transition:color .18s,background .18s;
+}
+nav a:hover{color:var(--white);background:rgba(255,255,255,.04);}
+.nav-drops{color:var(--red) !important;}
+.nav-drops:hover{background:rgba(201,16,16,.12) !important;}
+.cart{
+  background:var(--red);color:#fff;
+  border:none;padding:8px 20px;
+  border-radius:4px;font-size:0.78rem;
+  font-weight:700;text-transform:uppercase;
+  letter-spacing:0.1em;cursor:pointer;
+  transition:background .18s;
+  margin-left:0.75rem;flex-shrink:0;
+}
+.cart:hover{background:var(--red-hot);}
+
+/* — HERO — */
+#hero{
+  min-height:100vh;
+  display:flex;align-items:center;justify-content:center;
+  flex-direction:column;text-align:center;
+  padding:100px 2rem 5rem;
+  position:relative;overflow:hidden;
+}
+#heroBg{position:absolute;inset:0;width:100%;height:100%;}
+.hero-inner{position:relative;z-index:1;}
+#heroD20{width:200px;height:200px;display:block;margin:0 auto 2.5rem;animation:float 5s ease-in-out infinite;}
+@keyframes float{0%,100%{transform:translateY(0) rotate(-2deg);}50%{transform:translateY(-18px) rotate(2deg);}}
+.hero-eyebrow{font-size:.7rem;text-transform:uppercase;letter-spacing:.22em;color:var(--red);margin-bottom:1rem;font-weight:700;}
+.hero-h1{
+  font-family:Georgia,serif;
+  font-size:clamp(2.6rem,7vw,5.2rem);
+  font-weight:700;color:var(--white);
+  line-height:1.05;letter-spacing:-.03em;
+  text-wrap:balance;margin-bottom:1.25rem;
+}
+.hero-h1 em{font-style:normal;color:var(--red);}
+.hero-sub{color:var(--mist);font-size:1.05rem;max-width:440px;margin:0 auto 2.5rem;}
+.cta-row{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;}
+.btn-p{
+  background:var(--red);color:#fff;
+  padding:14px 34px;border:none;
+  border-radius:4px;font-size:.85rem;
+  font-weight:700;text-transform:uppercase;
+  letter-spacing:.1em;cursor:pointer;
+  text-decoration:none;display:inline-block;
+  transition:background .18s,transform .12s;
+}
+.btn-p:hover{background:var(--red-hot);transform:translateY(-2px);}
+.btn-g{
+  background:transparent;color:var(--cream);
+  padding:14px 34px;border:1px solid #2e1818;
+  border-radius:4px;font-size:.85rem;font-weight:600;
+  text-transform:uppercase;letter-spacing:.1em;
+  cursor:pointer;text-decoration:none;display:inline-block;
+  transition:border-color .18s,color .18s;
+}
+.btn-g:hover{border-color:var(--red);color:var(--white);}
+
+/* — PRODUCT SECTIONS — */
+.prod-section{padding:6rem 2rem;max-width:1200px;margin:0 auto;}
+.sec-head{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:2.75rem;}
+.sec-label{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.18em;color:var(--red);margin-bottom:.35rem;}
+.sec-title{font-family:Georgia,serif;font-size:clamp(1.7rem,3.5vw,2.5rem);font-weight:700;color:var(--white);text-wrap:balance;letter-spacing:-.02em;}
+.sec-more{color:var(--red);font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;text-decoration:none;transition:color .18s;flex-shrink:0;padding-bottom:4px;}
+.sec-more:hover{color:var(--red-hot);}
+
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;}
+
+.pcard{
+  background:var(--panel);border:1px solid var(--border);
+  border-radius:6px;overflow:hidden;
+  transition:transform .3s cubic-bezier(.22,.8,.22,1),box-shadow .3s,border-color .3s;
+  cursor:pointer;
+}
+.pcard:hover{
+  transform:translateY(-14px) scale(1.025);
+  box-shadow:0 28px 56px rgba(201,16,16,.22);
+  border-color:var(--red-dim);
+}
+.pcard-img{
+  width:100%;aspect-ratio:4/3;
+  background:var(--panel2);
+  display:flex;align-items:center;justify-content:center;
+  overflow:hidden;position:relative;
+}
+.pcard-img svg{width:80%;height:80%;}
+.pcard-body{padding:1.25rem 1.5rem 1.5rem;}
+.pcard-name{font-family:Georgia,serif;font-size:1.05rem;font-weight:700;color:var(--white);margin-bottom:.3rem;}
+.pcard-desc{font-size:.8rem;color:var(--mist);margin-bottom:1rem;line-height:1.5;}
+.pcard-foot{display:flex;align-items:center;justify-content:space-between;}
+.pcard-price{font-size:1.1rem;font-weight:700;color:var(--red);font-variant-numeric:tabular-nums;}
+.add{
+  background:transparent;color:var(--red);
+  border:1px solid var(--red-dim);
+  padding:7px 15px;border-radius:4px;
+  font-size:.74rem;font-weight:700;
+  text-transform:uppercase;letter-spacing:.08em;
+  cursor:pointer;transition:all .18s;
+}
+.add:hover{background:var(--red);color:#fff;border-color:var(--red);}
+
+.div{border:none;border-top:1px solid var(--border);margin:0 2rem;}
+
+/* — NEW DROPS — */
+#drops{padding:6rem 2rem;background:var(--panel);border-top:1px solid var(--border);border-bottom:1px solid var(--border);}
+#drops .inner{max-width:1200px;margin:0 auto;}
+.drop-badge{
+  display:inline-block;background:var(--red);color:#fff;
+  font-size:.62rem;font-weight:800;text-transform:uppercase;
+  letter-spacing:.14em;padding:3px 8px;border-radius:3px;
+  margin-bottom:.5rem;vertical-align:middle;margin-left:.75rem;
+}
+.dcard{
+  background:var(--panel2);
+  border:1px solid var(--red-dim);
+  border-radius:6px;overflow:hidden;position:relative;
+  transition:transform .3s cubic-bezier(.22,.8,.22,1),box-shadow .3s;
+  cursor:pointer;
+}
+.dcard::after{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,var(--red),#ff7070,var(--red));
+  opacity:0;transition:opacity .3s;
+}
+.dcard:hover{transform:translateY(-14px) scale(1.025);box-shadow:0 28px 56px rgba(201,16,16,.3);}
+.dcard:hover::after{opacity:1;}
+
+/* — CHAT — */
+#chat-sec{padding:6rem 2rem;max-width:860px;margin:0 auto;}
+.chat-wrap{background:var(--panel);border:1px solid var(--border);border-radius:8px;overflow:hidden;}
+.chat-top{
+  padding:1.1rem 1.5rem;border-bottom:1px solid var(--border);
+  display:flex;align-items:center;gap:.75rem;
+}
+.chat-dot{width:8px;height:8px;border-radius:50%;background:var(--red);animation:blink 2s ease-in-out infinite;}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:.25;}}
+.chat-htitle{font-family:Georgia,serif;font-size:1rem;font-weight:700;color:var(--white);}
+.chat-count{font-size:.75rem;color:var(--mist);margin-left:auto;}
+.chat-msgs{
+  height:360px;overflow-y:auto;
+  padding:1.5rem;display:flex;
+  flex-direction:column;gap:1.25rem;
+  scrollbar-width:thin;scrollbar-color:var(--red-dim) transparent;
+}
+.cmsg{display:flex;flex-direction:column;gap:.2rem;}
+.cmsg-head{display:flex;align-items:baseline;gap:.6rem;}
+.cmsg-user{font-size:.78rem;font-weight:700;color:var(--red);}
+.cmsg-time{font-size:.68rem;color:var(--mist);}
+.cmsg-text{font-size:.88rem;color:var(--cream);line-height:1.5;}
+.chat-input{
+  border-top:1px solid var(--border);
+  padding:1rem 1.5rem;display:flex;gap:.6rem;align-items:center;
+}
+.c-name,.c-msg{
+  background:#0a0606;border:1px solid #251212;
+  color:var(--cream);padding:10px 13px;
+  border-radius:4px;font-size:.83rem;outline:none;
+  font-family:inherit;
+  transition:border-color .18s;
+}
+.c-name:focus,.c-msg:focus{border-color:var(--red-dim);}
+.c-name{width:120px;flex-shrink:0;}
+.c-msg{flex:1;}
+.c-send{
+  background:var(--red);color:#fff;border:none;
+  padding:10px 20px;border-radius:4px;
+  font-size:.78rem;font-weight:700;
+  text-transform:uppercase;letter-spacing:.08em;
+  cursor:pointer;transition:background .18s;white-space:nowrap;
+}
+.c-send:hover{background:var(--red-hot);}
+
+/* — NEWSLETTER — */
+#newsletter{
+  padding:6rem 2rem;text-align:center;
+  background:linear-gradient(180deg,var(--ink) 0%,#0e0606 100%);
+  border-top:1px solid var(--border);
+}
+.nl-inner{max-width:520px;margin:0 auto;}
+.nl-title{font-family:Georgia,serif;font-size:clamp(1.7rem,3.5vw,2.5rem);font-weight:700;color:var(--white);margin-bottom:.75rem;text-wrap:balance;letter-spacing:-.02em;}
+.nl-sub{font-size:.9rem;color:var(--mist);margin-bottom:2rem;}
+.nl-form{display:flex;gap:.6rem;}
+.nl-email{
+  flex:1;background:var(--panel);
+  border:1px solid #251212;color:var(--cream);
+  padding:13px 18px;border-radius:4px;
+  font-size:.88rem;outline:none;font-family:inherit;
+  transition:border-color .18s;
+}
+.nl-email:focus{border-color:var(--red);}
+.nl-email::placeholder{color:var(--mist);}
+.nl-ok{display:none;color:var(--red);font-size:.88rem;font-weight:600;margin-top:.9rem;}
+
+/* — FOOTER — */
+footer{
+  background:#050508;
+  border-top:1px solid var(--border);
+  padding:3rem 2rem;text-align:center;
+}
+.ft-name{font-family:Georgia,serif;font-size:1.15rem;font-weight:700;color:var(--white);margin-bottom:.35rem;}
+.ft-name span{color:var(--red);}
+.ft-tag{font-size:.78rem;color:var(--mist);margin-bottom:1.5rem;}
+.ft-links{display:flex;justify-content:center;gap:2rem;flex-wrap:wrap;margin-bottom:1.5rem;}
+.ft-links a{color:var(--mist);text-decoration:none;font-size:.75rem;text-transform:uppercase;letter-spacing:.08em;transition:color .18s;}
+.ft-links a:hover{color:var(--red);}
+.ft-copy{font-size:.72rem;color:#2e1a1a;}
+
+@media(max-width:900px){
+  .grid3{grid-template-columns:repeat(2,1fr);}
+  nav{display:none;}
+  .sec-more{display:none;}
+}
+@media(max-width:560px){
+  .grid3{grid-template-columns:1fr;}
+  .nl-form{flex-direction:column;}
+  .chat-input{flex-wrap:wrap;}
+  .c-name{width:100%;}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <a href="#" class="logo">
+    <canvas id="logoCanvas" width="84" height="84"></canvas>
+    <div class="logo-name">Dice<br><span>Heroes</span></div>
+  </a>
+  <nav>
+    <a href="#dice">Dice</a>
+    <a href="#towers">Towers</a>
+    <a href="#bags">Bags</a>
+    <a href="#drops" class="nav-drops">New Drops</a>
+    <a href="#chat-sec">Community</a>
+  </nav>
+  <button class="cart" id="cartBtn">Cart (0)</button>
+</header>
+
+<section id="hero">
+  <canvas id="heroBg"></canvas>
+  <div class="hero-inner">
+    <canvas id="heroD20" width="400" height="400"></canvas>
+    <p class="hero-eyebrow">Est. Roll 20 · Premium Tabletop Gear</p>
+    <h1 class="hero-h1">Your Legend.<br><em>Your Dice.</em></h1>
+    <p class="hero-sub">Hand-picked polyhedral sets, towers, and bags for adventurers who refuse to roll ordinary.</p>
+    <div class="cta-row">
+      <a href="#drops" class="btn-p">Shop New Drops</a>
+      <a href="#dice" class="btn-g">Browse All Gear</a>
+    </div>
+  </div>
+</section>
+
+<section class="prod-section" id="dice">
+  <div class="sec-head">
+    <div>
+      <p class="sec-label">Dice Sets</p>
+      <h2 class="sec-title">Roll with Intent</h2>
+    </div>
+    <a href="#" class="sec-more">View All →</a>
+  </div>
+  <div class="grid3">
+    <div class="pcard" onclick="addToCart('Crimson Dragon Set')">
+      <div class="pcard-img">
+        <svg viewBox="0 0 200 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <g transform="translate(10,20)">
+            <polygon points="50,10 90,32 90,76 50,98 10,76 10,32" fill="#8b0000" stroke="#cc1111" stroke-width="1.5"/>
+            <polygon points="50,10 90,32 50,54 10,32" fill="#cc1111"/>
+            <polygon points="90,32 90,76 50,98 50,54" fill="#660000"/>
+            <polygon points="10,32 50,54 50,98 10,76" fill="#7a0000"/>
+            <circle cx="42" cy="26" r="4" fill="white" opacity=".6"/>
+            <circle cx="58" cy="26" r="4" fill="white" opacity=".6"/>
+            <circle cx="42" cy="40" r="4" fill="white" opacity=".6"/>
+            <circle cx="58" cy="40" r="4" fill="white" opacity=".6"/>
+          </g>
+          <g transform="translate(72,15)">
+            <polygon points="54,5 99,28 99,73 54,96 9,73 9,28" fill="#0d0606" stroke="#cc1111" stroke-width="2"/>
+            <polygon points="54,5 99,28 9,28" fill="#1a0808" stroke="#cc1111" stroke-width="1"/>
+            <line x1="9" y1="28" x2="54" y2="50" stroke="#4a0000" stroke-width=".8"/>
+            <line x1="99" y1="28" x2="54" y2="50" stroke="#4a0000" stroke-width=".8"/>
+            <line x1="9" y1="73" x2="54" y2="50" stroke="#4a0000" stroke-width=".8"/>
+            <line x1="99" y1="73" x2="54" y2="50" stroke="#4a0000" stroke-width=".8"/>
+            <line x1="54" y1="96" x2="54" y2="50" stroke="#4a0000" stroke-width=".8"/>
+            <text x="54" y="24" text-anchor="middle" fill="#cc1111" font-size="14" font-weight="bold" font-family="Georgia,serif">20</text>
+          </g>
+          <g transform="translate(150,60)">
+            <polygon points="25,0 50,45 0,45" fill="#aa0000" stroke="#cc1111" stroke-width="1.5"/>
+            <polygon points="25,0 50,45 35,55 15,55 0,45" fill="#880000"/>
+            <text x="25" y="38" text-anchor="middle" fill="white" font-size="11" opacity=".7" font-family="Georgia,serif">4</text>
+          </g>
+        </svg>
+      </div>
+      <div class="pcard-body">
+        <div class="pcard-name">Crimson Dragon Set</div>
+        <div class="pcard-desc">7-piece polyhedral set in deep red swirl. Solid resin with gold ink. D4 through D20.</div>
+        <div class="pcard-foot">
+          <span class="pcard-price">$29.99</span>
+          <button class="add">Add to Cart</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="pcard" onclick="addToCart('Shadow Realm Set')">
+      <div class="pcard-img">
+        <svg viewBox="0 0 200 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <g transform="translate(20,30) rotate(-15,40,40)">
+            <polygon points="40,5 75,24 75,62 40,81 5,62 5,24" fill="#111" stroke="#550055" stroke-width="2"/>
+            <polygon points="40,5 75,24 5,24" fill="#1a001a" stroke="#770077" stroke-width="1"/>
+            <line x1="5" y1="24" x2="40" y2="43" stroke="#330033" stroke-width=".8"/>
+            <line x1="75" y1="24" x2="40" y2="43" stroke="#330033" stroke-width=".8"/>
+            <line x1="5" y1="62" x2="40" y2="43" stroke="#330033" stroke-width=".8"/>
+            <line x1="75" y1="62" x2="40" y2="43" stroke="#330033" stroke-width=".8"/>
+            <line x1="40" y1="81" x2="40" y2="43" stroke="#330033" stroke-width=".8"/>
+            <text x="40" y="22" text-anchor="middle" fill="#cc44cc" font-size="12" font-family="Georgia,serif">20</text>
+          </g>
+          <g transform="translate(105,20) rotate(10,40,40)">
+            <polygon points="40,8 72,26 72,62 40,80 8,62 8,26" fill="#0a0014" stroke="#3300aa" stroke-width="2"/>
+            <polygon points="40,8 72,26 8,26" fill="#10001e" stroke="#4400cc" stroke-width="1"/>
+            <line x1="8" y1="26" x2="40" y2="44" stroke="#220044" stroke-width=".8"/>
+            <line x1="72" y1="26" x2="40" y2="44" stroke="#220044" stroke-width=".8"/>
+            <line x1="8" y1="62" x2="40" y2="44" stroke="#220044" stroke-width=".8"/>
+            <line x1="72" y1="62" x2="40" y2="44" stroke="#220044" stroke-width=".8"/>
+            <line x1="40" y1="80" x2="40" y2="44" stroke="#220044" stroke-width=".8"/>
+            <text x="40" y="22" text-anchor="middle" fill="#6655ff" font-size="12" font-family="Georgia,serif">12</text>
+          </g>
+          <circle cx="30" cy="130" r="2" fill="#cc44cc" opacity=".7"/>
+          <circle cx="100" cy="140" r="1.5" fill="#6655ff" opacity=".6"/>
+          <circle cx="165" cy="125" r="2" fill="#cc44cc" opacity=".5"/>
+        </svg>
+      </div>
+      <div class="pcard-body">
+        <div class="pcard-name">Shadow Realm Set</div>
+        <div class="pcard-desc">Midnight black with purple galaxy swirl. Silver ink numerals. Fan favourite for dark campaigns.</div>
+        <div class="pcard-foot">
+          <span class="pcard-price">$34.99</span>
+          <button class="add">Add to Cart</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="pcard" onclick="addToCart('Blood Moon Metal Set')">
+      <div class="pcard-img">
+        <svg viewBox="0 0 200 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="metal" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#8a0000"/>
+              <stop offset="40%" stop-color="#cc1111"/>
+              <stop offset="70%" stop-color="#660000"/>
+              <stop offset="100%" stop-color="#440000"/>
+            </linearGradient>
+            <linearGradient id="metalTop" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#ff4444"/>
+              <stop offset="100%" stop-color="#aa0000"/>
+            </linearGradient>
+          </defs>
+          <g transform="translate(40,15)">
+            <polygon points="60,12 110,38 110,90 60,116 10,90 10,38" fill="url(#metal)" stroke="#ff3333" stroke-width="1.5"/>
+            <polygon points="60,12 110,38 60,64 10,38" fill="url(#metalTop)"/>
+            <polygon points="110,38 110,90 60,116 60,64" fill="#550000"/>
+            <circle cx="48" cy="52" r="5" fill="#ff8888" opacity=".9"/>
+            <circle cx="72" cy="52" r="5" fill="#ff8888" opacity=".9"/>
+            <circle cx="48" cy="68" r="5" fill="#ff8888" opacity=".9"/>
+            <circle cx="72" cy="68" r="5" fill="#ff8888" opacity=".9"/>
+            <circle cx="48" cy="84" r="5" fill="#ff8888" opacity=".9"/>
+            <circle cx="72" cy="84" r="5" fill="#ff8888" opacity=".9"/>
+          </g>
+          <g transform="translate(130,55)">
+            <polygon points="30,0 55,30 30,60 5,30" fill="url(#metal)" stroke="#ff3333" stroke-width="1.5"/>
+            <line x1="5" y1="30" x2="55" y2="30" stroke="#cc1111" stroke-width=".8"/>
+            <line x1="30" y1="0" x2="30" y2="60" stroke="#cc1111" stroke-width=".8"/>
+            <text x="30" y="34" text-anchor="middle" fill="#ffaaaa" font-size="11" font-family="Georgia,serif">8</text>
+          </g>
+        </svg>
+      </div>
+      <div class="pcard-body">
+        <div class="pcard-name">Blood Moon Metal Set</div>
+        <div class="pcard-desc">Heavy zinc alloy in blood-red anodised finish. Satisfying weight, thunderous rolls.</div>
+        <div class="pcard-foot">
+          <span class="pcard-price">$54.99</span>
+          <button class="add">Add to Cart</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="div">
+
+<section class="prod-section" id="towers">
+  <div class="sec-head">
+    <div>
+      <p class="sec-label">Dice Towers</p>
+      <h2 class="sec-title">Command the Roll</h2>
+    </div>
+    <a href="#" class="sec-more">View All →</a>
+  </div>
+  <div class="grid3">
+    <div class="pcard" onclick="addToCart('Obsidian Keep')">
+      <div class="pcard-img">
+        <svg viewBox="0 0 200 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="65" y="20" width="70" height="130" fill="#1a0808" stroke="#cc1111" stroke-width="2"/>
+          <rect x="60" y="10" width="16" height="16" fill="#1a0808" stroke="#cc1111" stroke-width="1.5"/>
+          <rect x="82" y="10" width="16" height="16" fill="#1a0808" stroke="#cc1111" stroke-width="1.5"/>
+          <rect x="104" y="10" width="16" height="16" fill="#1a0808" stroke="#cc1111" stroke-width="1.5"/>
+          <rect x="124" y="10" width="16" height="16" fill="#1a0808" stroke="#cc1111" stroke-width="1.5"/>
+          <rect x="88" y="40" width="24" height="32" rx="12" fill="#cc1111" opacity=".3" stroke="#cc1111" stroke-width="1"/>
+          <rect x="88" y="90" width="24" height="32" rx="12" fill="#cc1111" opacity=".3" stroke="#cc1111" stroke-width="1"/>
+          <path d="M75,150 Q100,132 125,150 L125,165 L75,165 Z" fill="#0a0404" stroke="#cc1111" stroke-width="1.5"/>
+          <rect x="75" y="150" width="50" height="15" fill="#0a0404"/>
+          <line x1="65" y1="55" x2="135" y2="55" stroke="#2a1010" stroke-width="1"/>
+          <line x1="65" y1="80" x2="135" y2="80" stroke="#2a1010" stroke-width="1"/>
+          <line x1="65" y1="125" x2="135" y2="125" stroke="#2a1010" stroke-width="1"/>
+          <rect x="87" y="158" width="12" height="12" rx="2" fill="#cc1111" opacity=".8" transform="rotate(15,93,164)"/>
+        </svg>
+      </div>
+      <div class="pcard-body">
+        <div class="pcard-name">Obsidian Keep</div>
+        <div class="pcard-desc">Laser-cut MDF tower in classic castle design. Removable tray catches every roll clean.</div>
+        <div class="pcard-foot">
+          <span class="pcard-price">$49.99</span>
+          <button class="add">Add to Cart</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="pcard" onclick="addToCart('Dragon\'s Peak Tower')">
+      <div class="pcard-img">
+        <svg viewBox="0 0 200 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="55" y="100" width="90" height="70" fill="#120a0a" stroke="#cc1111" stroke-width="2"/>
+          <rect x="68" y="55" width="64" height="50" fill="#120a0a" stroke="#cc1111" stroke-width="2"/>
+          <rect x="82" y="20" width="36" height="38" fill="#120a0a" stroke="#cc1111" stroke-width="2"/>
+          <polygon points="100,5 115,22 85,22" fill="#cc1111" stroke="#ff3333" stroke-width="1"/>
+          <polygon points="55,100 42,88 55,88" fill="#cc1111" opacity=".7"/>
+          <polygon points="145,100 158,88 145,88" fill="#cc1111" opacity=".7"/>
+          <path d="M90,30 Q100,22 110,30 L110,42 L90,42 Z" fill="#cc1111" opacity=".4" stroke="#cc1111" stroke-width=".8"/>
+          <path d="M78,65 Q85,58 92,65 L92,80 L78,80 Z" fill="#cc1111" opacity=".3" stroke="#cc1111" stroke-width=".8"/>
+          <path d="M108,65 Q115,58 122,65 L122,80 L108,80 Z" fill="#cc1111" opacity=".3" stroke="#cc1111" stroke-width=".8"/>
+          <path d="M65,168 Q100,154 135,168 L135,170 L65,170 Z" fill="#0a0404" stroke="#cc1111" stroke-width="1.5"/>
+          <line x1="55" y1="130" x2="145" y2="130" stroke="#2a1010" stroke-width="1"/>
+          <line x1="55" y1="148" x2="145" y2="148" stroke="#2a1010" stroke-width="1"/>
+          <line x1="68" y1="80" x2="132" y2="80" stroke="#2a1010" stroke-width="1"/>
+        </svg>
+      </div>
+      <div class="pcard-body">
+        <div class="pcard-name">Dragon's Peak Tower</div>
+        <div class="pcard-desc">Multi-level cathedral design with gargoyle flanks. Engraved oak with dragon scale pattern.</div>
+        <div class="pcard-foot">
+          <span class="pcard-price">$89.99</span>
+          <button class="add">Add to Cart</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="pcard" onclick="addToCart('Shadow Citadel')">
+      <div class="pcard-img">
+        <svg viewBox="0 0 200 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="wood" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#1a0a0a"/>
+              <stop offset="50%" stop-color="#2a1010"/>
+              <stop offset="100%" stop-color="#1a0a0a"/>
+            </linearGradient>
+          </defs>
+          <rect x="50" y="25" width="100" height="140" rx="3" fill="url(#wood)" stroke="#cc1111" stroke-width="2"/>
+          <line x1="50" y1="50" x2="150" y2="50" stroke="#2e1515" stroke-width=".8"/>
+          <line x1="50" y1="75" x2="150" y2="75" stroke="#2e1515" stroke-width=".8"/>
+          <line x1="50" y1="100" x2="150" y2="100" stroke="#2e1515" stroke-width=".8"/>
+          <line x1="50" y1="125" x2="150" y2="125" stroke="#2e1515" stroke-width=".8"/>
+          <line x1="50" y1="148" x2="150" y2="148" stroke="#cc1111" stroke-width="1.5"/>
+          <path d="M50,25 L65,25 L65,40 L50,40" fill="none" stroke="#cc1111" stroke-width="2"/>
+          <path d="M150,25 L135,25 L135,40 L150,40" fill="none" stroke="#cc1111" stroke-width="2"/>
+          <path d="M50,165 L65,165 L65,150 L50,150" fill="none" stroke="#cc1111" stroke-width="2"/>
+          <path d="M150,165 L135,165 L135,150 L150,150" fill="none" stroke="#cc1111" stroke-width="2"/>
+          <polygon points="100,50 126,63 126,90 100,103 74,90 74,63" fill="none" stroke="#cc1111" stroke-width="1.5" opacity=".7"/>
+          <polygon points="100,50 126,63 74,63" fill="none" stroke="#cc1111" stroke-width=".8" opacity=".5"/>
+          <text x="100" y="80" text-anchor="middle" fill="#cc1111" font-size="16" font-family="Georgia,serif" opacity=".8">20</text>
+          <rect x="65" y="148" width="70" height="12" rx="2" fill="#0a0404" stroke="#cc1111" stroke-width="1"/>
+        </svg>
+      </div>
+      <div class="pcard-body">
+        <div class="pcard-name">Shadow Citadel</div>
+        <div class="pcard-desc">Handcrafted walnut and steel. Engraved D20 crest, felt-lined tray. The premium choice.</div>
+        <div class="pcard-foot">
+          <span class="pcard-price">$129.99</span>
+          <button class="add">Add to Cart</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="div">
+
+<section class="prod-section" id="bags">
+  <div class="sec-head">
+    <div>
+      <p class="sec-label">Dice Bags</p>
+      <h2 class="sec-title">Carry Your Arsenal</h2>
+    </div>
+    <a href="#" class="sec-more">View All →</a>
+  </div>
+  <div class="grid3">
+    <div class="pcard" onclick="addToCart('Assassin\'s Pouch')">
+      <div class="pcard-img">
+        <svg viewBox="0 0 200 170" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M65,60 Q65,30 100,28 Q135,30 135,60 L145,148 Q145,158 100,160 Q55,158 55,148 Z" fill="#1a0808" stroke="#cc1111" stroke-width="2"/>
+          <path d="M70,55 Q100,48 130,55" fill="none" stroke="#cc1111" stroke-width="2.5"/>
+          <line x1="70" y1="55" x2="55" y2="38" stroke="#cc1111" stroke-width="2"/>
+          <line x1="130" y1="55" x2="145" y2="38" stroke="#cc1111" stroke-width="2"/>
+          <circle cx="55" cy="36" r="5" fill="none" stroke="#cc1111" stroke-width="1.5"/>
+          <circle cx="145" cy="36" r="5" fill="none" stroke="#cc1111" stroke-width="1.5"/>
+          <path d="M80,80 Q100,75 120,80" fill="none" stroke="#2e1010" stroke-width=".8"/>
+          <path d="M78,100 Q100,94 122,100" fill="none" stroke="#2e1010" stroke-width=".8"/>
+          <path d="M78,120 Q100,114 122,120" fill="none" stroke="#2e1010" stroke-width=".8"/>
+          <path d="M80,140 Q100,134 120,140" fill="none" stroke="#2e1010" stroke-width=".8"/>
+          <circle cx="100" cy="108" r="14" fill="none" stroke="#cc1111" stroke-width="1" opacity=".5"/>
+          <text x="100" y="113" text-anchor="middle" fill="#cc1111" font-size="14" opacity=".5">✦</text>
+        </svg>
+      </div>
+      <div class="pcard-body">
+        <div class="pcard-name">Assassin's Pouch</div>
+        <div class="pcard-desc">Matte black faux leather. Holds a full 7-piece set with room for extras. Velvet lined.</div>
+        <div class="pcard-foot">
+          <span class="pcard-price">$19.99</span>
+          <button class="add">Add to Cart</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="pcard" onclick="addToCart('Dragon Hide Bag')">
+      <div class="pcard-img">
+        <svg viewBox="0 0 200 170" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M50,70 Q50,35 100,32 Q150,35 150,70 L155,148 Q155,162 100,164 Q45,162 45,148 Z" fill="#1a0808" stroke="#cc1111" stroke-width="2"/>
+          <g opacity=".4" stroke="#cc1111" stroke-width=".7">
+            <circle cx="80" cy="90" r="8" fill="none"/><circle cx="96" cy="90" r="8" fill="none"/>
+            <circle cx="112" cy="90" r="8" fill="none"/><circle cx="128" cy="90" r="8" fill="none"/>
+            <circle cx="72" cy="104" r="8" fill="none"/><circle cx="88" cy="104" r="8" fill="none"/>
+            <circle cx="104" cy="104" r="8" fill="none"/><circle cx="120" cy="104" r="8" fill="none"/>
+            <circle cx="136" cy="104" r="8" fill="none"/><circle cx="80" cy="118" r="8" fill="none"/>
+            <circle cx="96" cy="118" r="8" fill="none"/><circle cx="112" cy="118" r="8" fill="none"/>
+            <circle cx="128" cy="118" r="8" fill="none"/><circle cx="72" cy="132" r="8" fill="none"/>
+            <circle cx="88" cy="132" r="8" fill="none"/><circle cx="104" cy="132" r="8" fill="none"/>
+            <circle cx="120" cy="132" r="8" fill="none"/><circle cx="136" cy="132" r="8" fill="none"/>
+            <circle cx="80" cy="146" r="8" fill="none"/><circle cx="96" cy="146" r="8" fill="none"/>
+            <circle cx="112" cy="146" r="8" fill="none"/><circle cx="128" cy="146" r="8" fill="none"/>
+          </g>
+          <path d="M62,65 Q100,56 138,65" fill="none" stroke="#cc1111" stroke-width="2.5"/>
+          <line x1="62" y1="65" x2="46" y2="45" stroke="#cc1111" stroke-width="2"/>
+          <line x1="138" y1="65" x2="154" y2="45" stroke="#cc1111" stroke-width="2"/>
+          <circle cx="44" cy="43" r="6" fill="none" stroke="#cc1111" stroke-width="1.5"/>
+          <circle cx="156" cy="43" r="6" fill="none" stroke="#cc1111" stroke-width="1.5"/>
+        </svg>
+      </div>
+      <div class="pcard-body">
+        <div class="pcard-name">Dragon Hide Bag</div>
+        <div class="pcard-desc">Embossed scale-pattern in deep crimson. Holds two full sets. A collector's staple.</div>
+        <div class="pcard-foot">
+          <span class="pcard-price">$29.99</span>
+          <button class="add">Add to Cart</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="pcard" onclick="addToCart('Velvet Shadow')">
+      <div class="pcard-img">
+        <svg viewBox="0 0 200 170" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M60,65 Q58,30 100,28 Q142,30 140,65 L148,152 Q148,164 100,165 Q52,164 52,152 Z" fill="#14001a" stroke="#880088" stroke-width="2"/>
+          <path d="M72,90 Q100,82 128,90" fill="none" stroke="#220022" stroke-width="1.2"/>
+          <path d="M68,112 Q100,104 132,112" fill="none" stroke="#220022" stroke-width="1.2"/>
+          <path d="M68,134 Q100,126 132,134" fill="none" stroke="#220022" stroke-width="1.2"/>
+          <path d="M70,155 Q100,147 130,155" fill="none" stroke="#220022" stroke-width="1.2"/>
+          <path d="M88,100 L100,88 L112,100 L100,112 Z" fill="none" stroke="#cc1111" stroke-width="1.5" opacity=".7"/>
+          <circle cx="100" cy="100" r="4" fill="#cc1111" opacity=".6"/>
+          <path d="M66,62 Q100,54 134,62" fill="none" stroke="#880088" stroke-width="2.5"/>
+          <line x1="66" y1="62" x2="50" y2="42" stroke="#cc1111" stroke-width="2"/>
+          <line x1="134" y1="62" x2="150" y2="42" stroke="#cc1111" stroke-width="2"/>
+          <circle cx="48" cy="40" r="6" fill="none" stroke="#cc1111" stroke-width="1.5"/>
+          <circle cx="152" cy="40" r="6" fill="none" stroke="#cc1111" stroke-width="1.5"/>
+          <line x1="48" y1="46" x2="40" y2="62" stroke="#cc1111" stroke-width="1.5"/>
+          <line x1="48" y1="46" x2="44" y2="64" stroke="#cc1111" stroke-width="1"/>
+          <line x1="48" y1="46" x2="52" y2="64" stroke="#cc1111" stroke-width="1"/>
+          <line x1="152" y1="46" x2="160" y2="62" stroke="#cc1111" stroke-width="1.5"/>
+          <line x1="152" y1="46" x2="156" y2="64" stroke="#cc1111" stroke-width="1"/>
+          <line x1="152" y1="46" x2="148" y2="64" stroke="#cc1111" stroke-width="1"/>
+        </svg>
+      </div>
+      <div class="pcard-body">
+        <div class="pcard-name">Velvet Shadow</div>
+        <div class="pcard-desc">Midnight velvet with embroidered crimson sigil. Gold drawstring tassels. Gift box included.</div>
+        <div class="pcard-foot">
+          <span class="pcard-price">$24.99</span>
+          <button class="add">Add to Cart</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="drops">
+  <div class="inner">
+    <div class="sec-head">
+      <div>
+        <p class="sec-label">New Drops <span class="drop-badge">Just Dropped</span></p>
+        <h2 class="sec-title">Limited. Legendary.</h2>
+      </div>
+      <a href="#" class="sec-more">See All Drops →</a>
+    </div>
+    <div class="grid3">
+      <div class="dcard pcard" onclick="addToCart('Inferno Collection')">
+        <div class="pcard-img" style="background:#0f0400;">
+          <svg viewBox="0 0 200 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M80,160 Q70,130 85,110 Q78,125 95,115 Q82,100 100,80 Q95,95 110,88 Q98,72 105,50 Q115,70 110,90 Q125,78 118,95 Q130,85 125,110 Q138,92 130,118 Q140,108 135,132 Q140,148 120,160 Z" fill="#cc1111" opacity=".6"/>
+            <path d="M90,160 Q82,135 95,118 Q90,128 102,120 Q94,108 108,92 Q104,105 116,99 Q108,88 115,72 Q122,86 118,100 Q128,90 122,106 Q130,98 126,118 Q132,105 128,128 Q132,142 116,160 Z" fill="#ff6633" opacity=".7"/>
+            <polygon points="100,30 140,52 140,96 100,118 60,96 60,52" fill="#1a0800" stroke="#ff6600" stroke-width="2.5"/>
+            <polygon points="100,30 140,52 60,52" fill="#2a0c00" stroke="#ff4400" stroke-width="1.5"/>
+            <line x1="60" y1="52" x2="100" y2="74" stroke="#661100" stroke-width=".8"/>
+            <line x1="140" y1="52" x2="100" y2="74" stroke="#661100" stroke-width=".8"/>
+            <line x1="60" y1="96" x2="100" y2="74" stroke="#661100" stroke-width=".8"/>
+            <line x1="140" y1="96" x2="100" y2="74" stroke="#661100" stroke-width=".8"/>
+            <line x1="100" y1="118" x2="100" y2="74" stroke="#661100" stroke-width=".8"/>
+            <text x="100" y="50" text-anchor="middle" fill="#ff6600" font-size="14" font-family="Georgia,serif" font-weight="bold">20</text>
+          </svg>
+        </div>
+        <div class="pcard-body">
+          <div class="pcard-name">Inferno Collection <span class="drop-badge">New</span></div>
+          <div class="pcard-desc">Flame-gradient resin with ember flake suspension. Only 200 sets cast. Never reprinting.</div>
+          <div class="pcard-foot">
+            <span class="pcard-price">$69.99</span>
+            <button class="add">Add to Cart</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="dcard pcard" onclick="addToCart('Necromancer\'s Arsenal')">
+        <div class="pcard-img" style="background:#030a08;">
+          <svg viewBox="0 0 200 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="bone" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#d4cfc0"/>
+                <stop offset="100%" stop-color="#a09880"/>
+              </linearGradient>
+            </defs>
+            <g transform="translate(20,25)">
+              <polygon points="50,8 90,30 90,74 50,96 10,74 10,30" fill="#1a1a10" stroke="#667744" stroke-width="2"/>
+              <polygon points="50,8 90,30 10,30" fill="#252512" stroke="#889966" stroke-width="1.2"/>
+              <line x1="10" y1="30" x2="50" y2="52" stroke="#333322" stroke-width=".7"/>
+              <line x1="90" y1="30" x2="50" y2="52" stroke="#333322" stroke-width=".7"/>
+              <line x1="10" y1="74" x2="50" y2="52" stroke="#333322" stroke-width=".7"/>
+              <line x1="90" y1="74" x2="50" y2="52" stroke="#333322" stroke-width=".7"/>
+              <line x1="50" y1="96" x2="50" y2="52" stroke="#333322" stroke-width=".7"/>
+              <text x="50" y="27" text-anchor="middle" fill="#aabb88" font-size="13" font-family="Georgia,serif">20</text>
+            </g>
+            <g transform="translate(115,30)">
+              <polygon points="42,8 74,26 74,62 42,80 10,62 10,26" fill="url(#bone)"/>
+              <polygon points="42,8 74,26 42,44 10,26" fill="#e0dac8"/>
+              <polygon points="74,26 74,62 42,80 42,44" fill="#8a8270"/>
+              <circle cx="36" cy="32" r="3.5" fill="#3a3028"/>
+              <circle cx="48" cy="32" r="3.5" fill="#3a3028"/>
+              <circle cx="36" cy="44" r="3.5" fill="#3a3028"/>
+              <circle cx="48" cy="44" r="3.5" fill="#3a3028"/>
+            </g>
+          </svg>
+        </div>
+        <div class="pcard-body">
+          <div class="pcard-name">Necromancer's Arsenal <span class="drop-badge">New</span></div>
+          <div class="pcard-desc">Carved bone resin with deep forest green ink. Skull motif engraved on the "1" face of every die.</div>
+          <div class="pcard-foot">
+            <span class="pcard-price">$44.99</span>
+            <button class="add">Add to Cart</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="dcard pcard" onclick="addToCart('Blood Pact Tower')">
+        <div class="pcard-img" style="background:#0a0008;">
+          <svg viewBox="0 0 200 170" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="58" y="30" width="84" height="130" rx="4" fill="#120008" stroke="#cc0088" stroke-width="2"/>
+            <polygon points="100,12 128,32 72,32" fill="#cc0088" opacity=".8"/>
+            <polygon points="100,12 115,22 100,32 85,22" fill="#ff00aa" opacity=".5"/>
+            <rect x="86" y="50" width="28" height="36" rx="14" fill="#cc0088" opacity=".2" stroke="#cc0088" stroke-width="1.5"/>
+            <text x="100" y="73" text-anchor="middle" fill="#cc0088" font-size="16" opacity=".8">ᚱ</text>
+            <rect x="86" y="100" width="28" height="36" rx="14" fill="#cc0088" opacity=".2" stroke="#cc0088" stroke-width="1.5"/>
+            <text x="100" y="123" text-anchor="middle" fill="#cc0088" font-size="16" opacity=".8">ᚢ</text>
+            <text x="66" y="90" text-anchor="middle" fill="#cc0088" font-size="10" opacity=".5">ᚦ</text>
+            <text x="134" y="90" text-anchor="middle" fill="#cc0088" font-size="10" opacity=".5">ᚦ</text>
+            <rect x="70" y="152" width="60" height="10" rx="2" fill="#0a0004" stroke="#cc0088" stroke-width="1"/>
+            <rect x="90" y="156" width="8" height="8" rx="1" fill="#cc0088" opacity=".7" transform="rotate(20,94,160)"/>
+          </svg>
+        </div>
+        <div class="pcard-body">
+          <div class="pcard-name">Blood Pact Tower <span class="drop-badge">New</span></div>
+          <div class="pcard-desc">Resin-cast with backlit runic chambers. USB-powered LED glow in crimson. Ships with D20.</div>
+          <div class="pcard-foot">
+            <span class="pcard-price">$99.99</span>
+            <button class="add">Add to Cart</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="chat-sec">
+  <div class="sec-head" style="margin-bottom:2rem;max-width:860px;margin-left:auto;margin-right:auto;padding:0 2rem;">
+    <div>
+      <p class="sec-label">Community</p>
+      <h2 class="sec-title">The Dice Hall</h2>
+    </div>
+  </div>
+  <div style="max-width:860px;margin:0 auto;padding:0 2rem;">
+    <p style="color:var(--mist);font-size:.88rem;margin-bottom:1.75rem;">Your most glorious failures and legendary rolls, immortalised. Pull up a chair, roll the dice, tell the tale.</p>
+    <div class="chat-wrap">
+      <div class="chat-top">
+        <div class="chat-dot"></div>
+        <span class="chat-htitle">The Dice Hall</span>
+        <span class="chat-count" id="chatCount">5 adventurers</span>
+      </div>
+      <div class="chat-msgs" id="chatMsgs"></div>
+      <div class="chat-input">
+        <input class="c-name" id="cName" placeholder="Your name" maxlength="20">
+        <input class="c-msg" id="cMsg" placeholder="Share your legendary roll…" maxlength="280">
+        <button class="c-send" id="cSend">Roll It</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="newsletter">
+  <div class="nl-inner">
+    <p class="hero-eyebrow" style="margin-bottom:.75rem;">New Drops First</p>
+    <h2 class="nl-title">Get the Drop<br>Before Anyone Else</h2>
+    <p class="nl-sub">Limited sets sell out in hours. Be first to roll on new arrivals, exclusive collabs, and founder pricing.</p>
+    <div class="nl-form">
+      <input class="nl-email" id="nlEmail" type="email" placeholder="your@email.com">
+      <button class="btn-p" id="nlBtn" style="white-space:nowrap;">Join the Guild</button>
+    </div>
+    <p class="nl-ok" id="nlOk">⚔ You're in the guild. Watch your inbox.</p>
+  </div>
+</section>
+
+<footer>
+  <div class="ft-name">Dice <span>Heroes</span></div>
+  <p class="ft-tag">Roll in style. Die with honour.</p>
+  <div class="ft-links">
+    <a href="#">Dice Sets</a>
+    <a href="#">Dice Towers</a>
+    <a href="#">Dice Bags</a>
+    <a href="#">New Drops</a>
+    <a href="#">Community</a>
+    <a href="#">About</a>
+    <a href="#">Shipping &amp; Returns</a>
+  </div>
+  <p class="ft-copy">© 2026 Dice Heroes. All rights reserved. Roll responsibly.</p>
+</footer>
+
+<script>
+function drawD20(canvas,size,textTop,textBot,glowColor){
+  const c=canvas.getContext('2d');
+  const W=canvas.width,H=canvas.height;
+  const cx=W/2,cy=H/2;
+  const r=Math.min(W,H)*0.44;
+  c.clearRect(0,0,W,H);
+  c.shadowColor=glowColor||'#cc1111';
+  c.shadowBlur=size==='big'?28:12;
+  c.beginPath();
+  for(let i=0;i<6;i++){const a=(i*60-90)*Math.PI/180;i===0?c.moveTo(cx+r*Math.cos(a),cy+r*Math.sin(a)):c.lineTo(cx+r*Math.cos(a),cy+r*Math.sin(a));}
+  c.closePath();
+  c.fillStyle='#0a0a0f';c.fill();
+  c.strokeStyle=glowColor||'#cc1111';
+  c.lineWidth=size==='big'?3.5:2;
+  c.stroke();c.shadowBlur=0;
+  const V=[];
+  for(let i=0;i<6;i++){const a=(i*60-90)*Math.PI/180;V.push([cx+r*Math.cos(a),cy+r*Math.sin(a)]);}
+  const[T,TR,BR,B,BL,TL]=V;
+  c.strokeStyle=glowColor?glowColor+'66':'#4a0000';
+  c.lineWidth=size==='big'?1.2:0.8;
+  c.beginPath();c.moveTo(TL[0],TL[1]);c.lineTo(TR[0],TR[1]);c.stroke();
+  c.beginPath();c.moveTo(BL[0],BL[1]);c.lineTo(BR[0],BR[1]);c.stroke();
+  const mid=[cx,cy];
+  [[T,mid],[B,mid],[TL,mid],[TR,mid],[BL,mid],[BR,mid]].forEach(([a,b])=>{c.beginPath();c.moveTo(a[0],a[1]);c.lineTo(b[0],b[1]);c.stroke();});
+  const topFaceY=(T[1]+TL[1]+TR[1])/3;
+  c.shadowColor=glowColor||'#cc1111';
+  c.shadowBlur=size==='big'?16:8;
+  c.fillStyle=glowColor||'#cc1111';
+  c.textAlign='center';c.textBaseline='middle';
+  c.font=`bold ${r*(size==='big'?0.42:0.38)}px 'Impact','Arial Black',sans-serif`;
+  c.fillText('20',cx,topFaceY+(size==='big'?2:1));
+  c.shadowBlur=0;
+  if(textTop&&textBot){
+    c.fillStyle='#f4ede4';
+    c.font=`bold ${r*0.18}px 'Impact','Arial Black',sans-serif`;
+    c.fillText(textTop,cx,cy+r*0.22);
+    c.fillStyle=glowColor||'#cc1111';
+    c.fillText(textBot,cx,cy+r*0.44);
+  }
+}
+
+function initHeroBg(){
+  const canvas=document.getElementById('heroBg');
+  if(!canvas)return;
+  let W,H;
+  const resize=()=>{W=canvas.width=canvas.offsetWidth;H=canvas.height=canvas.offsetHeight;};
+  resize();
+  window.addEventListener('resize',resize);
+  const pts=Array.from({length:60},()=>({x:Math.random()*1000,y:Math.random()*800,vx:(Math.random()-.5)*.3,vy:(Math.random()-.5)*.3,r:Math.random()*1.5+.5,opacity:Math.random()*.5+.1}));
+  const c=canvas.getContext('2d');
+  function frame(){
+    c.clearRect(0,0,W,H);
+    pts.forEach(p=>{
+      p.x+=p.vx;p.y+=p.vy;
+      if(p.x<0)p.x=W;if(p.x>W)p.x=0;
+      if(p.y<0)p.y=H;if(p.y>H)p.y=0;
+      c.beginPath();
+      c.arc(p.x/1000*W,p.y/800*H,p.r,0,Math.PI*2);
+      c.fillStyle=`rgba(201,16,16,${p.opacity})`;
+      c.fill();
+    });
+    requestAnimationFrame(frame);
+  }
+  frame();
+}
+
+window.addEventListener('DOMContentLoaded',()=>{
+  drawD20(document.getElementById('logoCanvas'),'small',null,null,'#cc1111');
+  drawD20(document.getElementById('heroD20'),'big','DICE','HEROES','#cc1111');
+  initHeroBg();
+
+  const seed=[
+    {u:'CritFail42',t:'2:12 PM',msg:"Rolled a Nat 1 on persuasion with the dragon. He took my shoes. Just... my shoes."},
+    {u:'RollWithIt',t:'2:28 PM',msg:"Four consecutive Nat 20s on investigation. DM told me I now know where Jimmy Hoffa is buried."},
+    {u:'TabletopTerror',t:'2:45 PM',msg:"Rolled a 1 on Stealth while hiding from 3 guards. My physical dice fell off the table and hit the DM. We rolled with it."},
+    {u:'NaturalBorn1',t:'3:01 PM',msg:"Athletics check to jump over a puddle. Nat 1. Broke both legs. IN A PUDDLE. DM was merciless."},
+    {u:'DungeonDad',t:'3:22 PM',msg:"Level 17 wizard, Nat 1 on Arcana. Accidentally turned himself into a mushroom for 3 sessions. We finished the campaign. He stayed a mushroom."},
+  ];
+  const msgBox=document.getElementById('chatMsgs');
+  const countEl=document.getElementById('chatCount');
+  let count=5;
+
+  function renderMsg(u,t,msg){
+    const el=document.createElement('div');
+    el.className='cmsg';
+    el.innerHTML=`<div class="cmsg-head"><span class="cmsg-user">${u}</span><span class="cmsg-time">${t}</span></div><div class="cmsg-text">${msg}</div>`;
+    return el;
+  }
+  seed.forEach(m=>msgBox.appendChild(renderMsg(m.u,m.t,m.msg)));
+  msgBox.scrollTop=msgBox.scrollHeight;
+
+  document.getElementById('cSend').addEventListener('click',sendMsg);
+  document.getElementById('cMsg').addEventListener('keydown',e=>{if(e.key==='Enter')sendMsg();});
+
+  function sendMsg(){
+    const name=document.getElementById('cName').value.trim()||'Anonymous Adventurer';
+    const msg=document.getElementById('cMsg').value.trim();
+    if(!msg)return;
+    const now=new Date();
+    const t=now.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
+    msgBox.appendChild(renderMsg(name,t,msg));
+    msgBox.scrollTop=msgBox.scrollHeight;
+    document.getElementById('cMsg').value='';
+    count++;
+    countEl.textContent=`${count} adventurers`;
+  }
+
+  let cartCount=0;
+  const cartBtn=document.getElementById('cartBtn');
+  window.addToCart=function(){
+    cartCount++;
+    cartBtn.textContent=`Cart (${cartCount})`;
+    cartBtn.style.background='var(--red-hot)';
+    setTimeout(()=>cartBtn.style.background='',600);
+  };
+  document.querySelectorAll('.add').forEach(btn=>{
+    btn.addEventListener('click',e=>{
+      e.stopPropagation();
+      addToCart();
+      btn.textContent='Added ✓';
+      btn.style.background='var(--red)';btn.style.color='#fff';
+      setTimeout(()=>{btn.textContent='Add to Cart';btn.style.background='';btn.style.color='';},1400);
+    });
+  });
+
+  document.getElementById('nlBtn').addEventListener('click',()=>{
+    const email=document.getElementById('nlEmail').value;
+    if(!email||!email.includes('@'))return;
+    document.getElementById('nlOk').style.display='block';
+    document.getElementById('nlEmail').value='';
+    document.getElementById('nlEmail').placeholder="You're in the guild.";
+  });
+});
+</script>
+</body>
+</html>
